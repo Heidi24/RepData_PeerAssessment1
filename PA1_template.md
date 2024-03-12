@@ -61,6 +61,8 @@ ggplot(Total_Steps, aes(x = steps)) +
 ```{r}
 Total_Steps[, .(Mean_Steps = mean(steps, na.rm = TRUE), Median_Steps = median(steps, na.rm = TRUE))]
 ```
+    ##    Mean_Steps Median_Steps
+    ## 1:   10766.19        10765
 
 ## What is the average daily activity pattern?
 
@@ -72,11 +74,16 @@ IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("step
 ggplot(IntervalDT, aes(x = interval , y = steps)) + geom_line(color="blue", size=1) + labs(title = "Avg. Daily Steps", x = "Interval", y = "Avg. Steps per day")
 ```
 
+![](https://github.com/Heidi24/RepData_PeerAssessment1/blob/master/unnamed-chunk-13-1.png)
+
 2. Which one contains the maximum number of steps?
 
 ```{r}
 IntervalDT[steps == max(steps), .(max_interval = interval)]
 ```
+
+    ##    max_interval
+    ## 1:          835
 
 ## Imputing missing values (4)
 
@@ -84,10 +91,9 @@ IntervalDT[steps == max(steps), .(max_interval = interval)]
 
 ```{r}
 activityDT[is.na(steps), .N ]
-
-# alternative solution
-nrow(activityDT[is.na(steps),])
 ```
+
+    ## [1] 2304
 
 2. Devise a strategy for filling in all of the missing values in the dataset (e.g., median for that da).
 
@@ -111,9 +117,16 @@ Total_Steps <- activityDT[, c(lapply(.SD, sum)), .SDcols = c("steps"), by = .(da
 
 # mean and median total number of steps taken per day
 Total_Steps[, .(Mean_Steps = mean(steps), Median_Steps = median(steps))]
+```
 
+    ##    Mean_Steps Median_Steps
+    ## 1:    9354.23        10395
+
+``` r
 ggplot(Total_Steps, aes(x = steps)) + geom_histogram(fill = "blue", binwidth = 1000) + labs(title = "Daily Steps", x = "Steps", y = "Frequency")
 ```
+
+![](https://github.com/Heidi24/RepData_PeerAssessment1/blob/master/unnamed-chunk-4-1.png)
 
 Type of Estimate | Mean_Steps | Median_Steps
 --- | --- | ---
@@ -135,6 +148,18 @@ activityDT[, `weekday or weekend` := as.factor(`weekday or weekend`)]
 head(activityDT, 10)
 ```
 
+    ##     steps       date interval Day of Week weekday or weekend
+    ##  1:    NA 2012-10-01        0      Monday            weekday
+    ##  2:    NA 2012-10-01        5      Monday            weekday
+    ##  3:    NA 2012-10-01       10      Monday            weekday
+    ##  4:    NA 2012-10-01       15      Monday            weekday
+    ##  5:    NA 2012-10-01       20      Monday            weekday
+    ##  6:    NA 2012-10-01       25      Monday            weekday
+    ##  7:    NA 2012-10-01       30      Monday            weekday
+    ##  8:    NA 2012-10-01       35      Monday            weekday
+    ##  9:    NA 2012-10-01       40      Monday            weekday
+    ## 10:    NA 2012-10-01       45      Monday            weekday
+
 2. Make a panel plot containing a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
 ```{r}
@@ -143,3 +168,5 @@ IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("step
 
 ggplot(IntervalDT , aes(x = interval , y = steps, color=`weekday or weekend`)) + geom_line() + labs(title = "Avg. Daily Steps by Weektype", x = "Interval", y = "No. of Steps") + facet_wrap(~`weekday or weekend` , ncol = 1, nrow=2)
 ```
+
+![](https://github.com/Heidi24/RepData_PeerAssessment1/blob/master/unnamed-chunk-6-1.png)
