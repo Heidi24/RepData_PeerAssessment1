@@ -69,9 +69,6 @@ IntervalDT[steps == max(steps), .(max_interval = interval)]
 
 ```{r}
 activityDT[is.na(steps), .N ]
-
-# alternative solution
-nrow(activityDT[is.na(steps),])
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset (e.g., median for that da).
