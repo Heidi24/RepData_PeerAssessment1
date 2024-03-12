@@ -1,8 +1,10 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-author: "heidi tang"
-date: "`r Sys.Date()`"
-output: html_document
+author: "Heidi Tang"
+date: "3/12/2024"
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 
